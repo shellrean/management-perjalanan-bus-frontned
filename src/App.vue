@@ -1,32 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav class="bg-white border-2 shadow-sm">
+      <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="relative flex items-center justify-between h-16">
+          <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="flex space-x-4">
+              <div>
+                <img src="img/007.png" style="width: 50px;" alt="">
+              </div>
+              <div class="">
+                <div class="text-gray-500 text-sm font-semibold">Aplikasi management</div>
+                <div class="text-gray-500 text-lg font-semibold">Jadwal perjalanan BUS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
     <router-view/>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
