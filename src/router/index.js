@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
 import BusIndex from '../views/bus/Bus.vue'
-import BusAdd from '../views/bus/Add.vue';
+import BusAdd from '../views/bus/Add.vue'
+import BusEdit from '../views/bus/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/bus/add',
     name: 'bus.add',
     component: BusAdd
+  },
+  {
+    path: '/bus/:id/edit',
+    name: 'bus.edit',
+    component: BusEdit
   }
 ]
 

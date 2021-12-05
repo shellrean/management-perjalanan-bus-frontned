@@ -77,8 +77,8 @@
                                 <div class="text-sm text-gray-900">{{ bus.ukuran }} Kursi</div>
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</a>
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</a>
+                                <router-link :to="{ name: 'bus.edit', params: {id: bus.id} }" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900 mr-1">Edit</router-link>
+                                <button @click="_deleteBusData(bus.id)" class="inline-block text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</button>
                               </td>
                           </tr>
                         </tbody>
@@ -98,13 +98,25 @@ export default {
     ...mapState('bus', ['buses'])
   },
   methods: {
-    ...mapActions('bus', ['fetchDataBuses']),
+    ...mapActions('bus', ['fetchDataBuses', 'deleteBusData']),
     async _fetchDataBuses(prev, next) {
       try {
         await this.fetchDataBuses({
           prev: prev,
           next: next
         })
+      } catch (e) {
+        alert(e)
+      }
+    },
+    async _deleteBusData(busId) {
+      try {
+        if(!confirm('Anda ingin menghapus bus ini?')) {
+          return false
+        }
+        await this.deleteBusData(busId)
+
+        this._fetchDataBuses(null, null)
       } catch (e) {
         alert(e)
       }
