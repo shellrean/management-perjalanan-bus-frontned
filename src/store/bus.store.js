@@ -11,7 +11,8 @@ const mutations = {
 }
 
 const actions = {
-  fetchDataBuses
+  fetchDataBuses,
+  storeNewDataBus
 }
 
 export default {
@@ -35,6 +36,20 @@ function fetchDataBuses({ commit }, links) {
       let network = await axios.get(link)
       commit('_assign_data_buses', network.data)
 
+      resolve(network.data)
+    } catch (e) {
+      console.error(e)
+      reject(e)
+    }
+  })
+}
+
+function storeNewDataBus({ commit }, bus) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let link = 'http://localhost:8000/api/buses';
+
+      let network = await axios.post(link, bus)
       resolve(network.data)
     } catch (e) {
       console.error(e)
