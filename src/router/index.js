@@ -6,6 +6,8 @@ import BusIndex from '../views/bus/Bus.vue'
 import BusAdd from '../views/bus/Add.vue'
 import BusEdit from '../views/bus/Edit.vue'
 
+import SupirIndex from '../views/supir/Supir.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,6 +30,11 @@ const routes = [
     path: '/bus/:id/edit',
     name: 'bus.edit',
     component: BusEdit
+  },
+  {
+    path: '/supir',
+    name: 'supir.index',
+    component: SupirIndex
   }
 ]
 
