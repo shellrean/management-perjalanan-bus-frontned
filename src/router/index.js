@@ -7,6 +7,7 @@ import BusAdd from '../views/bus/Add.vue'
 import BusEdit from '../views/bus/Edit.vue'
 
 import SupirIndex from '../views/supir/Supir.vue'
+import SupirAdd from '../views/supir/Add.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
     path: '/supir',
     name: 'supir.index',
     component: SupirIndex
+  },
+  {
+    path: '/supir/add',
+    name: 'supir.add',
+    component: SupirAdd
   }
 ]
 

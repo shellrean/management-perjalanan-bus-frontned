@@ -11,7 +11,8 @@ const mutations = {
 }
 
 const actions = {
-  fetchDataSupirs
+  fetchDataSupirs,
+  storeNewDataSupir
 }
 
 export default {
@@ -35,6 +36,20 @@ function fetchDataSupirs({ commit }, links) {
       let network = await axios.get(link)
       commit('_assign_supirs_data', network.data)
 
+      resolve(network.data)
+    } catch (e) {
+      console.error(e)
+      reject(e)
+    }
+  })
+}
+
+function storeNewDataSupir({ commit }, supir) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let link = 'http://localhost:8000/api/supirs';
+
+      let network = await axios.post(link, supir)
       resolve(network.data)
     } catch (e) {
       console.error(e)

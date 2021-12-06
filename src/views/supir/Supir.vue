@@ -3,8 +3,8 @@
     <div class="mt-10">
         <div class="max-w-7xl mx-auto mb-1 flex justify-between">
             <div>
-                <a href="../index.html" class="inline-block shadow-sm py-2 px-4 text-gray-500 bg-gray-100 rounded-t-md text-sm border-gray-200 border">Home</a>
-                <button class="shadow-sm py-2 px-4 text-blue-500 bg-blue-100 rounded-t-md text-sm border-blue-200 border">Buat baru</button>
+                <router-link :to="{ name: 'Home' }" class="inline-block shadow-sm py-2 px-4 text-gray-500 bg-gray-100 rounded-t-md text-sm border-gray-200 border">Home</router-link>
+                <router-link :to="{ name: 'supir.add' }" class="inline-block shadow-sm py-2 px-4 text-blue-500 bg-blue-100 rounded-t-md text-sm border-blue-200 border">Tambah baru</router-link>
             </div>
             <div
             v-if="typeof supirs.data != 'undefined'"
@@ -77,7 +77,7 @@
                                 <div class="text-sm text-gray-900">{{ _translateGender(supir.jk) }}</div>
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</a>
+                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900 mr-1">Edit</a>
                                 <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</a>
                               </td>
                           </tr>
