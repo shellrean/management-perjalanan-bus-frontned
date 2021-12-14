@@ -77,8 +77,8 @@
                                 <div class="text-sm text-gray-900">{{ _translateGender(supir.jk) }}</div>
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900 mr-1">Edit</a>
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</a>
+                                <router-link :to="{name: 'supir.edit', params:{id: supir.id}}" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900 mr-1">Edit</router-link>
+                                <button @click="_deleteDataSupir(supir.id)" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</button>
                               </td>
                           </tr>
                         </tbody>
@@ -99,7 +99,7 @@ export default {
     ...mapState('supir', ['supirs'])
   },
   methods: {
-    ...mapActions('supir', ['fetchDataSupirs']),
+    ...mapActions('supir', ['fetchDataSupirs', 'deleteDataSupir']),
     async _fetchDataSupirs(prev, next) {
       try {
          await this.fetchDataSupirs({
@@ -117,6 +117,18 @@ export default {
         return 'Perempuan';
       } else {
         return 'Unknown';
+      }
+    },
+    async _deleteDataSupir(supirId) {
+      try {
+        if (!confirm('Apakah anda yakin untuk menghapus supir ini?')) {
+          return false
+        }
+
+        await this.deleteDataSupir(supirId)
+        this._fetchDataSupirs(null, null)
+      } catch (e) {
+        alert(e)
       }
     }
   },

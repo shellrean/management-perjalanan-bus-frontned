@@ -8,6 +8,7 @@ import BusEdit from '../views/bus/Edit.vue'
 
 import SupirIndex from '../views/supir/Supir.vue'
 import SupirAdd from '../views/supir/Add.vue'
+import SupirEdit from '../views/supir/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/supir/add',
     name: 'supir.add',
     component: SupirAdd
+  },
+  {
+    path: '/supir/:id/edit',
+    name: 'supir.edit',
+    component: SupirEdit
   }
 ]
 
