@@ -3,21 +3,31 @@
     <div class="mt-10">
         <div class="max-w-7xl mx-auto mb-1 flex justify-between">
             <div>
-                <a href="../index.html" class="inline-block shadow-sm py-2 px-4 text-gray-500 bg-gray-100 rounded-t-md text-sm border-gray-200 border">Home</a>
-            <button class="shadow-sm py-2 px-4 text-blue-500 bg-blue-100 rounded-t-md text-sm border-blue-200 border">Buat baru</button>
+                <router-link :to="{name: 'Home' }" class="inline-block shadow-sm py-2 px-4 text-gray-500 bg-gray-100 rounded-t-md text-sm border-gray-200 border">Home</router-link>
+                <router-link :to="{ name: 'terminal.add' }" class="inline-block shadow-sm py-2 px-4 text-blue-500 bg-blue-100 rounded-t-md text-sm border-blue-200 border">Buat baru</router-link>
             </div>
-            <div>
+            <div
+            v-if="typeof terminals.data != 'undefined'"
+            >
                 <div class="flex items-center justify-center space-x-1 mt-2 mx-auto">
-                    <a href="#" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                        </svg>
-                    </a>
-                    <a href="#" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md hover:bg-blue-400 hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                    </a>
+                    <button
+                    :disabled="terminals.prev_page_url == null"
+                    :class="{
+                      'cursor-not-allowed': terminals.prev_page_url == null,
+                      'hover:bg-blue-400 hover:text-white': terminals.prev_page_url != null
+                    }"
+                    @click="_fetchDataTerminals(terminals.prev_page_url, null)" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
+                      Sebelumnya
+                    </button>
+                    <button
+                    :disabled="terminals.next_page_url == null"
+                    :class="{
+                      'cursor-not-allowed': terminals.next_page_url == null,
+                      'hover:bg-blue-400 hover:text-white': terminals.next_page_url != null
+                    }"
+                    @click="_fetchDataTerminals(null, terminals.next_page_url)" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
+                      Selanjutnya
+                    </button>
                 </div>
             </div>
         </div>
@@ -68,7 +78,7 @@
                               <div class="text-sm text-gray-900">{{ terminal.tipe }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                              <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</a>
+                              <a href="#" class="mr-1 text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</a>
                               <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</a>
                             </td>
                           </tr>
