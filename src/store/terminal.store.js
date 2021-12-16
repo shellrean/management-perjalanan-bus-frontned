@@ -12,7 +12,10 @@ const mutations = {
 
 const actions = {
   fetchDataTerminals,
-  storeNewTerminal
+  storeNewTerminal,
+  findTerminal,
+  updateTerminal,
+  deleteTerminal
 }
 
 export default {
@@ -50,6 +53,48 @@ function storeNewTerminal({ commit }, terminal) {
       let link = 'http://localhost:8000/api/terminals';
 
       let network = await axios.post(link, terminal)
+      resolve(network.data)
+    } catch (e) {
+      console.error(e)
+      reject(e)
+    }
+  })
+}
+
+function updateTerminal({ commit }, terminal) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let link = 'http://localhost:8000/api/terminals/'+terminal.id;
+
+      let network = await axios.put(link, terminal)
+      resolve(network.data)
+    } catch (e) {
+      console.error(e)
+      reject(e)
+    }
+  })
+}
+
+function findTerminal({ commit }, terminalId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let link = 'http://localhost:8000/api/terminals/'+terminalId;
+
+      let network = await axios.get(link)
+      resolve(network.data)
+    } catch (e) {
+      console.error(e)
+      reject(e)
+    }
+  })
+}
+
+function deleteTerminal({ commit }, terminalId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let link = 'http://localhost:8000/api/terminals/'+terminalId;
+
+      let network = await axios.delete(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)

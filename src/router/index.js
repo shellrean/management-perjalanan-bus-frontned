@@ -12,6 +12,7 @@ import SupirEdit from '../views/supir/Edit.vue'
 
 import TerminalIndex from '../views/terminal/Terminal.vue'
 import TerminalAdd from '../views/terminal/Add.vue'
+import TerminalEdit from '../views/terminal/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const routes = [
     path: '/terminal/add',
     name: 'terminal.add',
     component: TerminalAdd
+  },
+  {
+    path: '/terminal/:id/edit',
+    name: 'terminal.edit',
+    component: TerminalEdit
   }
 ]
 
