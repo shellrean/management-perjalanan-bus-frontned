@@ -4,7 +4,7 @@
         <div class="max-w-7xl mx-auto mb-1 flex justify-between">
             <div>
                 <router-link :to="{ name: 'Home' }" class="inline-block shadow-sm py-2 px-4 text-gray-500 bg-gray-100 rounded-t-md text-sm border-gray-200 border">Home</router-link>
-                <button class="shadow-sm py-2 px-4 text-blue-500 bg-blue-100 rounded-t-md text-sm border-blue-200 border">Buat baru</button>
+                <router-link :to="{ name: 'rute.add' }" class="inline-block shadow-sm py-2 px-4 text-blue-500 bg-blue-100 rounded-t-md text-sm border-blue-200 border">Buat baru</router-link>
             </div>
             <div
             v-if="typeof rutes.data != 'undefined'"
