@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import bus from './bus.store'
 import supir from './supir.store'
 import terminal from './terminal.store'
+import rute from './rute.store'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: {
     bus,
     supir,
-    terminal
+    terminal,
+    rute
   }
 })
