@@ -77,8 +77,8 @@
                                 <div class="text-sm text-gray-900">{{ rute.waktu_tempuh }} menit</div>
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</a>
-                                <a href="#" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</a>
+                                <router-link :to="{name: 'rute.edit', params:{id: rute.id} }" class="mr-1 text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</router-link>
+                                <button @click="_deleteDataRute(rute.id)" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</button>
                               </td>
                           </tr>
                         </tbody>
@@ -98,13 +98,24 @@ export default {
     ...mapState('rute', ['rutes'])
   },
   methods: {
-    ...mapActions('rute', ['fetchDataRutes']),
+    ...mapActions('rute', ['fetchDataRutes', 'deleteDataRute']),
     async _fetchDataRutes(prev, next) {
       try {
         await this.fetchDataRutes({
           prev: prev,
           next: next
         })
+      } catch (e) {
+        alert(e)
+      }
+    },
+    async _deleteDataRute(ruteId) {
+      try {
+        if (!confirm('Apakah anda yakin ingin menghapus data ini?')) {
+          return false
+        }
+        await this.deleteDataRute(ruteId)
+        this._fetchDataRutes()
       } catch (e) {
         alert(e)
       }

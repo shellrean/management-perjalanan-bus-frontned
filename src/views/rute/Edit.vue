@@ -1,7 +1,7 @@
 <template>
 <div class="container mx-auto">
     <div class="mt-10">
-        <form @submit.prevent="_storeNewRute" class="max-w-sm mx-auto">
+        <form @submit.prevent="_updateDataRute" class="max-w-sm mx-auto">
             <div class="mb-2">
                 <label class="block text-sm font-medium text-gray-700">Kode</label>
                 <input v-model="rute.kode" type="text" class="border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm border-gray-300 rounded-md" placeholder="Kode">
@@ -67,10 +67,10 @@ export default {
   },
   methods: {
     ...mapActions('terminal', ['fetchDataTerminals']),
-    ...mapActions('rute', ['storeNewRute']),
-    async _storeNewRute() {
+    ...mapActions('rute', ['updateDataRute', 'getDataRute']),
+    async _updateDataRute() {
       try {
-        await this.storeNewRute(this.rute)
+        await this.updateDataRute(this.rute)
         this.$router.replace({ name: 'rute.index' })
       } catch (e) {
         alert(e)
@@ -93,10 +93,25 @@ export default {
     },
     _removeCheckpoints() {
       this.rute.checkpoints.pop()
+    },
+    async _getDataRute() {
+      try {
+        let rute = await this.getDataRute(this.$route.params.id)
+        rute.checkpoints = rute.checkpoints.map(c => {
+          return {
+            id: c.id,
+            waktu: c.waktu
+          }
+        })
+        this.rute = rute
+      } catch (e) {
+        alert(e)
+      }
     }
   },
   created() {
     this._fetchDataTerminals(null, null)
+    this._getDataRute()
   }
 }
 </script>
