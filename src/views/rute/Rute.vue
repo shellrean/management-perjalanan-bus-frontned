@@ -78,6 +78,7 @@
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                 <router-link :to="{name: 'rute.edit', params:{id: rute.id} }" class="mr-1 text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</router-link>
+                                <router-link :to="{name: 'rute.show', params:{id: rute.id} }" class="mr-1 text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Show</router-link>
                                 <button @click="_deleteDataRute(rute.id)" class="text-xs shadow-sm bg-gray-200 py-1 px-4 text-gray-700 rounded-md hover:text-indigo-900">Hapus</button>
                               </td>
                           </tr>

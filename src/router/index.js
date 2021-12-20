@@ -17,6 +17,7 @@ import TerminalEdit from '../views/terminal/Edit.vue'
 import RuteIndex from '../views/rute/Rute.vue'
 import RuteAdd from '../views/rute/Add.vue'
 import RuteEdit from '../views/rute/Edit.vue'
+import RuteView from '../views/rute/View.vue'
 
 Vue.use(VueRouter)
 
@@ -85,6 +86,11 @@ const routes = [
     path: '/rute/:id/edit',
     name: 'rute.edit',
     component: RuteEdit
+  },
+  {
+    path: '/rute/:id',
+    name: 'rute.show',
+    component: RuteView
   }
 ]
 
