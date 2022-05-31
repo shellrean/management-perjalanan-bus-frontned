@@ -7,12 +7,26 @@
                 <input v-model="rute.kode" type="text" class="border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm border-gray-300 rounded-md" placeholder="Kode">
             </div>
             <div class="mb-2">
-                <label class="block text-sm font-medium text-gray-700">Asal</label>
-                <input v-model="rute.asal" type="text" class="border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm border-gray-300 rounded-md" placeholder="Asal">
+              <label class="block text-sm font-medium text-gray-700">Asal</label>
+              <select class="block w-full py-2 px-3 border-2 border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  v-model="rute.asal"
+                  >
+                    <option v-for="terminal in terminals.data"
+                    :value="terminal.id"
+                    >
+                    {{terminal.kode }} - {{ terminal.nama}}</option>
+              </select>
             </div>
             <div class="mb-2">
                 <label class="block text-sm font-medium text-gray-700">Tujuan</label>
-                <input v-model="rute.tujuan" type="text" class="border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm border-gray-300 rounded-md" placeholder="Tujuan">
+                <select class="block w-full py-2 px-3 border-2 border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  v-model="rute.tujuan"
+                  >
+                    <option v-for="terminal in terminals.data"
+                    :value="terminal.id"
+                    >
+                    {{terminal.kode }} - {{ terminal.nama}}</option>
+                </select>
             </div>
             <div class="mb-2">
                 <label class="block text-sm font-medium text-gray-700">Waktu tempuh</label>

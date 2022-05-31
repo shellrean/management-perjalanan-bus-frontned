@@ -1,4 +1,4 @@
-import axios from 'axios'
+import $http from '../api';
 
 const state = () => ({
   supirs: {}
@@ -28,7 +28,7 @@ export default {
 function fetchDataSupirs({ commit }, links) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/supirs';
+      let link = 'supirs';
 
       if (links.prev != null) {
         link = links.prev
@@ -36,7 +36,7 @@ function fetchDataSupirs({ commit }, links) {
         link = links.next
       }
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       commit('_assign_supirs_data', network.data)
 
       resolve(network.data)
@@ -50,9 +50,9 @@ function fetchDataSupirs({ commit }, links) {
 function storeNewDataSupir({ commit }, supir) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/supirs';
+      let link = 'supirs';
 
-      let network = await axios.post(link, supir)
+      let network = await $http.post(link, supir)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -64,9 +64,9 @@ function storeNewDataSupir({ commit }, supir) {
 function findDataSupir({ commit }, supirId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/supirs/'+supirId;
+      let link = 'supirs/'+supirId;
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -78,9 +78,9 @@ function findDataSupir({ commit }, supirId) {
 function updateNewDataSupir({ commit }, supir) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/supirs/'+supir.id;
+      let link = 'supirs/'+supir.id;
 
-      let network = await axios.put(link, supir)
+      let network = await $http.put(link, supir)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -92,9 +92,9 @@ function updateNewDataSupir({ commit }, supir) {
 function deleteDataSupir({ commit }, supirId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/supirs/'+supirId;
+      let link = 'supirs/'+supirId;
 
-      let network = await axios.delete(link)
+      let network = await $http.delete(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)

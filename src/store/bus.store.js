@@ -1,4 +1,4 @@
-import axios from 'axios'
+import $http from '../api';
 
 const state = () => ({
   buses: {}
@@ -28,7 +28,7 @@ export default {
 function fetchDataBuses({ commit }, links) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/buses';
+      let link = 'buses';
 
       if (links.prev != null) {
         link = links.prev
@@ -36,7 +36,7 @@ function fetchDataBuses({ commit }, links) {
         link = links.next
       }
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       commit('_assign_data_buses', network.data)
 
       resolve(network.data)
@@ -50,9 +50,9 @@ function fetchDataBuses({ commit }, links) {
 function storeNewDataBus({ commit }, bus) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/buses';
+      let link = 'buses';
 
-      let network = await axios.post(link, bus)
+      let network = await $http.post(link, bus)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -64,9 +64,9 @@ function storeNewDataBus({ commit }, bus) {
 function getBusData({ commit }, busId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/buses/'+busId;
+      let link = 'buses/'+busId;
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -78,9 +78,9 @@ function getBusData({ commit }, busId) {
 function updateDataBus({ commit }, bus) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/buses/'+bus.id;
+      let link = 'buses/'+bus.id;
 
-      let network = await axios.put(link, bus)
+      let network = await $http.put(link, bus)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -92,9 +92,9 @@ function updateDataBus({ commit }, bus) {
 function deleteBusData({ commit }, busId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/buses/'+busId;
+      let link = 'buses/'+busId;
 
-      let network = await axios.delete(link)
+      let network = await $http.delete(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)

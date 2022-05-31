@@ -68,13 +68,19 @@
                               <div class="text-sm text-gray-900">{{ rute.kode }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ rute.asal }}</div>
+                                <div class="text-sm text-gray-900">
+                                  [{{ rute.asal_kode}}] {{ rute.asal_nama }}<br />
+                                  {{ rute.asal }}
+                                </div>
                               </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                              <div class="text-sm text-gray-900">{{ rute.tujuan }}</div>
+                              <div class="text-sm text-gray-900">
+                                [{{ rute.tujuan_kode }}] {{ rute.tujuan_nama }}<br />
+                                {{ rute.tujuan }}
+                              </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ rute.waktu_tempuh }} menit</div>
+                                <div class="text-sm text-gray-900">{{ convertToJamAndMinute(rute.waktu_tempuh) }}</div>
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                 <router-link :to="{name: 'rute.edit', params:{id: rute.id} }" class="mr-1 text-xs shadow-sm bg-gray-200 py-1 px-4 rounded-md text-gray-700 hover:text-indigo-900">Edit</router-link>
@@ -120,6 +126,14 @@ export default {
       } catch (e) {
         alert(e)
       }
+    },
+    convertToJamAndMinute(waktu) {
+      let jam = Math.floor(waktu/60);
+      let menit = waktu-(jam*60);
+      if(jam > 0) {
+        return `${jam} jam ${menit} menit`
+      }
+      return `${menit} menit`
     }
   },
   created() {

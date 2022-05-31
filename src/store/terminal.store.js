@@ -1,4 +1,4 @@
-import axios from 'axios'
+import $http from '../api';
 
 const state = () => ({
   terminals: {}
@@ -28,7 +28,7 @@ export default {
 function fetchDataTerminals({ commit }, links) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/terminals';
+      let link = 'terminals';
 
       if (links.prev != null) {
         link = links.prev
@@ -36,7 +36,7 @@ function fetchDataTerminals({ commit }, links) {
         link = links.next
       }
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       commit('_assign_terminals_data', network.data)
 
       resolve(network.data)
@@ -50,9 +50,9 @@ function fetchDataTerminals({ commit }, links) {
 function storeNewTerminal({ commit }, terminal) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/terminals';
+      let link = 'terminals';
 
-      let network = await axios.post(link, terminal)
+      let network = await $http.post(link, terminal)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -64,9 +64,9 @@ function storeNewTerminal({ commit }, terminal) {
 function updateTerminal({ commit }, terminal) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/terminals/'+terminal.id;
+      let link = 'terminals/'+terminal.id;
 
-      let network = await axios.put(link, terminal)
+      let network = await $http.put(link, terminal)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -78,9 +78,9 @@ function updateTerminal({ commit }, terminal) {
 function findTerminal({ commit }, terminalId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/terminals/'+terminalId;
+      let link = 'terminals/'+terminalId;
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -92,9 +92,9 @@ function findTerminal({ commit }, terminalId) {
 function deleteTerminal({ commit }, terminalId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/terminals/'+terminalId;
+      let link = 'terminals/'+terminalId;
 
-      let network = await axios.delete(link)
+      let network = await $http.delete(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)

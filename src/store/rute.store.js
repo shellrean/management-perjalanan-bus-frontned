@@ -1,4 +1,4 @@
-import axios from 'axios'
+import $http from '../api';
 
 const state = () => ({
   rutes: {}
@@ -28,7 +28,7 @@ export default {
 function fetchDataRutes({ commit }, links) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/rutes';
+      let link = 'rutes';
 
       if (links.prev != null) {
         link = links.prev
@@ -36,7 +36,7 @@ function fetchDataRutes({ commit }, links) {
         link = links.next
       }
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       commit('_assign_data_rutes', network.data)
 
       resolve(network.data)
@@ -50,9 +50,9 @@ function fetchDataRutes({ commit }, links) {
 function storeNewRute({ commit }, rute) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/rutes';
+      let link = 'rutes';
 
-      let network = await axios.post(link, rute)
+      let network = await $http.post(link, rute)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -64,9 +64,9 @@ function storeNewRute({ commit }, rute) {
 function getDataRute({ commit }, ruteId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/rutes/'+ruteId;
+      let link = 'rutes/'+ruteId;
 
-      let network = await axios.get(link)
+      let network = await $http.get(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -78,9 +78,9 @@ function getDataRute({ commit }, ruteId) {
 function updateDataRute({ commit }, rute) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/rutes/'+rute.id;
+      let link = 'rutes/'+rute.id;
 
-      let network = await axios.put(link, rute)
+      let network = await $http.put(link, rute)
       resolve(network.data)
     } catch (e) {
       console.error(e)
@@ -92,9 +92,9 @@ function updateDataRute({ commit }, rute) {
 function deleteDataRute({ commit }, ruteId) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'http://localhost:8000/api/rutes/'+ruteId;
+      let link = 'rutes/'+ruteId;
 
-      let network = await axios.delete(link)
+      let network = await $http.delete(link)
       resolve(network.data)
     } catch (e) {
       console.error(e)
