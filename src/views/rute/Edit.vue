@@ -48,8 +48,8 @@
                 
 
                 <div class="flex justify-end mt-1">
-                  <button class="bg-red-400 text-white block py-1 px-4 rounded-md mr-1" @click="_removeCheckpoints">Hapus</button>
-                  <button class="bg-blue-400 text-white block py-1 px-4 rounded-md" @click="_addCheckpoints">Tambah</button>
+                  <button type="button" class="bg-red-400 text-white block py-1 px-4 rounded-md mr-1" @click="_removeCheckpoints">Hapus</button>
+                  <button type="button" class="bg-blue-400 text-white block py-1 px-4 rounded-md" @click="_addCheckpoints">Tambah</button>
                 </div>
             </div>
             <div class="mt-2 flex space-x-1">

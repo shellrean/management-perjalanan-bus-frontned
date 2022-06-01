@@ -19,6 +19,10 @@ import RuteAdd from '../views/rute/Add.vue'
 import RuteEdit from '../views/rute/Edit.vue'
 import RuteView from '../views/rute/View.vue'
 
+import JadwalIndex from '../views/jadwal/Jadwal.vue'
+import JadwalAdd from '../views/jadwal/Add.vue'
+import JadwalEdit from '../views/jadwal/Edit.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -91,6 +95,21 @@ const routes = [
     path: '/rute/:id',
     name: 'rute.show',
     component: RuteView
+  },
+  {
+    path: '/jadwal',
+    name: 'jadwal.index',
+    component: JadwalIndex
+  },
+  {
+    path: '/jadwal/add',
+    name: 'jadwal.add',
+    component: JadwalAdd
+  },
+  {
+    path: '/jadwal/:id/edit',
+    name: 'jadwal.edit',
+    component: JadwalEdit
   }
 ]
 
