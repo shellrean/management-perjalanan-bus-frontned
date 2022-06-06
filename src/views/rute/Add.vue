@@ -35,6 +35,7 @@
             <div class="mb-2">
                 <label for="country" class="block text-sm font-medium text-gray-700">Checkpoints</label>
                 <div class="flex items-center" v-for="(ruteIterate, i) in rute.checkpoints">
+                  <input v-model.number="rute.checkpoints[i].code" type="text" class="border-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm border-gray-300 rounded-md" placeholder="Kode" />
                   <select class="block w-full py-2 px-3 border-2 border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   v-model="rute.checkpoints[i].id"
                   >
@@ -71,7 +72,7 @@ export default {
         tujuan: "",
         waktu_tempuh: 30,
         checkpoints: [
-          {id: "", waktu: 30 }
+          {id: "", code: "", waktu: 30 }
         ]
       }
     }
@@ -102,7 +103,7 @@ export default {
     },
     _addCheckpoints() {
       this.rute.checkpoints.push({
-        id: "", waktu: 30
+        id: "", code: "", waktu: 30
       })
     },
     _removeCheckpoints() {
