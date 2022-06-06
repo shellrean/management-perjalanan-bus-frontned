@@ -16,7 +16,7 @@
                       'cursor-not-allowed': rutes.prev_page_url == null,
                       'hover:bg-blue-400 hover:text-white': rutes.prev_page_url != null
                     }"
-                    @click="_fetchDataRutes(rutes.prev_page_url, null)" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
+                    @click="page -= 1" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
                       Sebelumnya
                     </button>
                     <button
@@ -25,7 +25,7 @@
                       'cursor-not-allowed': rutes.next_page_url == null,
                       'hover:bg-blue-400 hover:text-white': rutes.next_page_url != null
                     }"
-                    @click="_fetchDataRutes(null, rutes.next_page_url)" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
+                    @click="page += 1" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
                       Selanjutnya
                     </button>
                 </div>
@@ -102,16 +102,21 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
-    ...mapState('rute', ['rutes'])
+    ...mapState('rute', ['rutes']),
+    page: {
+      get() {
+        return this.$store.state.rute.page
+      },
+      set(val) {
+        this.$store.commit('rute/_set_page', val)
+      }
+    }
   },
   methods: {
     ...mapActions('rute', ['fetchDataRutes', 'deleteDataRute']),
-    async _fetchDataRutes(prev, next) {
+    async _fetchDataRutes() {
       try {
-        await this.fetchDataRutes({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataRutes()
       } catch (e) {
         alert(e)
       }
@@ -138,6 +143,11 @@ export default {
   },
   created() {
     this._fetchDataRutes()
+  },
+  watch: {
+    page() {
+      this._fetchDataRutes()
+    }
   }
 }
 </script>

@@ -1,12 +1,16 @@
 import $http from '../api';
 
 const state = () => ({
-  rutes: {}
+  rutes: {},
+  page: 1
 })
 
 const mutations = {
   _assign_data_rutes(state, payload) {
     state.rutes = payload
+  },
+  _set_page(state, payload) {
+    state.page = payload
   }
 }
 
@@ -25,16 +29,10 @@ export default {
   actions
 }
 
-function fetchDataRutes({ commit }, links) {
+function fetchDataRutes({ commit, state }) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'rutes';
-
-      if (links.prev != null) {
-        link = links.prev
-      } else if (links.next != null) {
-        link = links.next
-      }
+      let link = 'rutes?page='+state.page;
 
       let network = await $http.get(link)
       commit('_assign_data_rutes', network.data)

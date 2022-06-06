@@ -1,12 +1,16 @@
 import $http from '../api';
 
 const state = () => ({
-  jadwals: {}
+  jadwals: {},
+  page: 1
 })
 
 const mutations = {
   _assign_data_jadwals(state, payload) {
     state.jadwals = payload
+  },
+  _set_page(state, payload) {
+    state.page = payload
   }
 }
 
@@ -24,16 +28,10 @@ export default {
   actions
 }
 
-function fetchDataJadwals({ commit }, links) {
+function fetchDataJadwals({ commit, state }) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'jadwals';
-
-      if (links.prev != null) {
-        link = links.prev
-      } else if (links.next != null) {
-        link = links.next
-      }
+      let link = 'jadwals?page='+state.page;
 
       let network = await $http.get(link)
       commit('_assign_data_jadwals', network.data)

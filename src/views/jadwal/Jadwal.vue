@@ -85,16 +85,21 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
-    ...mapState('jadwal', ['jadwals'])
+    ...mapState('jadwal', ['jadwals']),
+    page: {
+      get() {
+        return this.$store.state.jadwal.page
+      },
+      set(val) {
+        this.$store.commit('jadwal/_set_page', val)
+      }
+    }
   },
   methods: {
     ...mapActions('jadwal', ['fetchDataJadwals']),
     async _fetchDataJadwals(prev, next) {
       try {
-        await this.fetchDataJadwals({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataJadwals()
       } catch (e) {
         alert(e)
       }
@@ -109,7 +114,12 @@ export default {
     }
   },
   created() {
-    this._fetchDataJadwals(null, null)
+    this._fetchDataJadwals()
+  },
+  watch: {
+    page() {
+      this._fetchDataJadwals()
+    }
   }
 }
 </script>

@@ -16,7 +16,7 @@
                       'cursor-not-allowed': buses.prev_page_url == null,
                       'hover:bg-blue-400 hover:text-white': buses.prev_page_url != null
                     }"
-                    @click="_fetchDataBuses(buses.prev_page_url, null)" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
+                    @click="page -= 1" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
                       Sebelumnya
                     </button>
                     <button
@@ -25,7 +25,7 @@
                       'cursor-not-allowed': buses.next_page_url == null,
                       'hover:bg-blue-400 hover:text-white': buses.next_page_url != null
                     }"
-                    @click="_fetchDataBuses(null, buses.next_page_url)" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
+                    @click="page += 1" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
                       Selanjutnya
                     </button>
                 </div>
@@ -95,16 +95,21 @@
 import { mapState, mapActions } from 'vuex';
 export default {
   computed: {
-    ...mapState('bus', ['buses'])
+    ...mapState('bus', ['buses']),
+    page: {
+      get() {
+        return this.$store.state.bus.page;
+      },
+      set(val) {
+        this.$store.commit('bus/_set_page', val)
+      }
+    }
   },
   methods: {
     ...mapActions('bus', ['fetchDataBuses', 'deleteBusData']),
-    async _fetchDataBuses(prev, next) {
+    async _fetchDataBuses() {
       try {
-        await this.fetchDataBuses({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataBuses()
       } catch (e) {
         alert(e)
       }
@@ -116,14 +121,19 @@ export default {
         }
         await this.deleteBusData(busId)
 
-        this._fetchDataBuses(null, null)
+        this._fetchDataBuses()
       } catch (e) {
         alert(e)
       }
     }
   },
   created() {
-    this._fetchDataBuses(null, null)
+    this._fetchDataBuses()
+  },
+  watch: {
+    page() {
+      this._fetchDataBuses()
+    }
   }
 }
 </script>

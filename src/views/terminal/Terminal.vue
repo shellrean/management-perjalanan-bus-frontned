@@ -16,7 +16,7 @@
                       'cursor-not-allowed': terminals.prev_page_url == null,
                       'hover:bg-blue-400 hover:text-white': terminals.prev_page_url != null
                     }"
-                    @click="_fetchDataTerminals(terminals.prev_page_url, null)" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
+                    @click="page -= 1" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
                       Sebelumnya
                     </button>
                     <button
@@ -25,7 +25,7 @@
                       'cursor-not-allowed': terminals.next_page_url == null,
                       'hover:bg-blue-400 hover:text-white': terminals.next_page_url != null
                     }"
-                    @click="_fetchDataTerminals(null, terminals.next_page_url)" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
+                    @click="page += 1" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
                       Selanjutnya
                     </button>
                 </div>
@@ -96,16 +96,21 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
-    ...mapState('terminal', ['terminals'])
+    ...mapState('terminal', ['terminals']),
+    page: {
+      get() {
+        return this.$store.state.terminal.page
+      },
+      set(val) {
+        this.$store.commit('terminal/_set_page', val)
+      }
+    }
   },
   methods: {
     ...mapActions('terminal', ['fetchDataTerminals', 'deleteTerminal']),
-    async _fetchDataTerminals(prev, next) {
+    async _fetchDataTerminals() {
       try {
-        await this.fetchDataTerminals({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataTerminals()
       } catch (e) {
         alert(e)
       }
@@ -116,14 +121,19 @@ export default {
           return false
         }
         await this.deleteTerminal(terminalId)
-        this._fetchDataTerminals(null, null)
+        this._fetchDataTerminals()
       } catch (e) {
         alert(e)
       }
     }
   },
   created() {
-    this._fetchDataTerminals(null, null)
+    this._fetchDataTerminals()
+  },
+  watch: {
+    page() {
+      this._fetchDataTerminals()
+    }
   }
 }
 </script>

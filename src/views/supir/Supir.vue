@@ -16,7 +16,7 @@
                       'cursor-not-allowed': supirs.prev_page_url == null,
                       'hover:bg-blue-400 hover:text-white': supirs.prev_page_url != null
                     }"
-                    @click="_fetchDataSupirs(supirs.prev_page_url, null)" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
+                    @click="page -= 1" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
                       Sebelumnya
                     </button>
                     <button
@@ -25,7 +25,7 @@
                       'cursor-not-allowed': supirs.next_page_url == null,
                       'hover:bg-blue-400 hover:text-white': supirs.next_page_url != null
                     }"
-                    @click="_fetchDataSupirs(null, supirs.next_page_url)" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
+                    @click="page += 1" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
                       Selanjutnya
                     </button>
                 </div>
@@ -96,16 +96,21 @@
 import { mapState, mapActions } from 'vuex';
 export default {
   computed: {
-    ...mapState('supir', ['supirs'])
+    ...mapState('supir', ['supirs']),
+    page: {
+      get() {
+        return this.$store.state.supir.page
+      },
+      set(val) {
+        this.$store.commit('supir/_set_page', val)
+      }
+    }
   },
   methods: {
     ...mapActions('supir', ['fetchDataSupirs', 'deleteDataSupir']),
-    async _fetchDataSupirs(prev, next) {
+    async _fetchDataSupirs() {
       try {
-         await this.fetchDataSupirs({
-           prev: prev,
-           next: next
-         })
+         await this.fetchDataSupirs()
       } catch (e) {
         alert(e)
       }
@@ -126,14 +131,19 @@ export default {
         }
 
         await this.deleteDataSupir(supirId)
-        this._fetchDataSupirs(null, null)
+        this._fetchDataSupirs()
       } catch (e) {
         alert(e)
       }
     }
   },
   created() {
-    this._fetchDataSupirs(null, null)
+    this._fetchDataSupirs()
+  },
+  watch: {
+    page() {
+      this._fetchDataSupirs()
+    }
   }
 }
 </script>
