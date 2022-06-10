@@ -29,10 +29,10 @@ export default {
   actions
 }
 
-function fetchDataBuses({ commit, state }) {
+function fetchDataBuses({ commit, state }, qSearch) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'buses?page='+state.page;
+      let link = `buses?page=${state.page}&q=${qSearch}`;
 
       let network = await $http.get(link)
       commit('_assign_data_buses', network.data)

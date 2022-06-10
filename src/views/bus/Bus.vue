@@ -9,7 +9,7 @@
             <div
             v-if="typeof buses.data != 'undefined'"
             >
-                <div class="flex items-center justify-center space-x-1 mt-2 mx-auto">
+                <div class="flex items-center justify-center space-x-1 mx-auto">
                     <button
                     :disabled="buses.prev_page_url == null"
                     :class="{
@@ -38,9 +38,9 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
-                          <tr>
+                          <tr v-if="!show_search">
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                #
+                                <button @click="show_search = true">&#10061; Cari...</button>
                               </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               Nomor Plat
@@ -56,6 +56,20 @@
                               </th>
                             <th scope="col" class="relative px-6 py-3">
                               <span class="sr-only">Edit</span>
+                            </th>
+                          </tr>
+                          <tr v-if="show_search">
+                            <th colspan="6">
+                            <div class="flex">
+                              <div class="flex-1">
+                                <input v-model="search" type="text" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm rounded-md" placeholder="Cari..." />
+                              </div>
+                              <div>
+                                <button @click="show_search=false" class="h-5 w-5 rounded-full text-white bg-gray-400 flex justify-center items-center">
+                                  <p>&#10005;</p>
+                                </button>
+                              </div>
+                            </div>
                             </th>
                           </tr>
                         </thead>
@@ -93,7 +107,12 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
+import _ from 'lodash';
 export default {
+  data: () => ({
+    show_search: false,
+    search: ""
+  }),
   computed: {
     ...mapState('bus', ['buses']),
     page: {
@@ -109,7 +128,7 @@ export default {
     ...mapActions('bus', ['fetchDataBuses', 'deleteBusData']),
     async _fetchDataBuses() {
       try {
-        await this.fetchDataBuses()
+        await this.fetchDataBuses(this.search)
       } catch (e) {
         alert(e)
       }
@@ -133,7 +152,10 @@ export default {
   watch: {
     page() {
       this._fetchDataBuses()
-    }
+    },
+    search: _.debounce(function(value) {
+      this._fetchDataBuses()
+    }, 500)
   }
 }
 </script>

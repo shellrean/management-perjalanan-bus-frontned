@@ -71,10 +71,7 @@ export default {
     ...mapActions('jadwal', ['storeDataJadwal']),
     async _fetchDataBuses(prev, next) {
       try {
-        await this.fetchDataBuses({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataBuses("")
       } catch (e) {
         alert(e)
       }
