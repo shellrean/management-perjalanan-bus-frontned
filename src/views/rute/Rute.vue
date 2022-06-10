@@ -9,7 +9,7 @@
             <div
             v-if="typeof rutes.data != 'undefined'"
             >
-                <div class="flex items-center justify-center space-x-1 mt-2 mx-auto">
+                <div class="flex items-center justify-center space-x-1 mx-auto">
                     <button
                     :disabled="rutes.prev_page_url == null"
                     :class="{
@@ -17,7 +17,7 @@
                       'hover:bg-blue-400 hover:text-white': rutes.prev_page_url != null
                     }"
                     @click="page -= 1" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
-                      Sebelumnya
+                      &#10094;
                     </button>
                     <button
                     :disabled="rutes.next_page_url == null"
@@ -26,7 +26,7 @@
                       'hover:bg-blue-400 hover:text-white': rutes.next_page_url != null
                     }"
                     @click="page += 1" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
-                      Selanjutnya
+                      &#10095;
                     </button>
                 </div>
             </div>
@@ -38,9 +38,9 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
-                          <tr>
+                          <tr v-if="!show_search">
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              #
+                              <button @click="show_search=true">&#10061; Cari...</button>
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               Kode
@@ -58,8 +58,27 @@
                               <span class="sr-only">Edit</span>
                             </th>
                           </tr>
+                           <tr v-if="show_search">
+                            <th colspan="6">
+                            <div class="flex">
+                              <div class="flex-1">
+                                <input v-model="search" type="text" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm rounded-md" placeholder="Cari berdasarkan kode..." />
+                              </div>
+                              <div class="flex justify-center items-center">
+                                <button @click="show_search=false" class="h-5 w-5 rounded-full text-white bg-gray-400 flex justify-center items-center">
+                                  <p>&#10005;</p>
+                                </button>
+                              </div>
+                            </div>
+                            </th>
+                          </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
+                          <tr v-if="!rutes.data.length > 0">
+                            <td class="px-6 py-4 whitespace-nowrap" colspan="6">
+                              <div class="text-sm text-gray-900">Data tidak ditemukan...</div>
+                            </td>
+                          </tr>
                           <tr v-for="(rute, index) in rutes.data">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{ rutes.from + index }}</div>
@@ -101,6 +120,10 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
+  data: () => ({
+    show_search: false,
+    search: ""
+  }),
   computed: {
     ...mapState('rute', ['rutes']),
     page: {
@@ -116,7 +139,7 @@ export default {
     ...mapActions('rute', ['fetchDataRutes', 'deleteDataRute']),
     async _fetchDataRutes() {
       try {
-        await this.fetchDataRutes()
+        await this.fetchDataRutes(this.search)
       } catch (e) {
         alert(e)
       }
@@ -147,7 +170,10 @@ export default {
   watch: {
     page() {
       this._fetchDataRutes()
-    }
+    },
+    search: _.debounce(function(v) {
+      this._fetchDataRutes()
+    }, 500)
   }
 }
 </script>

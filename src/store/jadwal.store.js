@@ -28,10 +28,10 @@ export default {
   actions
 }
 
-function fetchDataJadwals({ commit, state }) {
+function fetchDataJadwals({ commit, state }, qSearch) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'jadwals?page='+state.page;
+      let link = `jadwals?page=${state.page}&q=${qSearch}`;
 
       let network = await $http.get(link)
       commit('_assign_data_jadwals', network.data)

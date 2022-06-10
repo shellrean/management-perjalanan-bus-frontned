@@ -17,7 +17,7 @@
                       'hover:bg-blue-400 hover:text-white': buses.prev_page_url != null
                     }"
                     @click="page -= 1" class="border-l border-t border-b border-gray-200 flex items-center px-4 py-1 text-gray-500 bg-gray-100 rounded-l-md">
-                      Sebelumnya
+                      &#10094;
                     </button>
                     <button
                     :disabled="buses.next_page_url == null"
@@ -26,7 +26,7 @@
                       'hover:bg-blue-400 hover:text-white': buses.next_page_url != null
                     }"
                     @click="page += 1" class="border-r border-t border-b border-gray-200 px-4 py-1 text-gray-500 bg-gray-100 rounded-r-md">
-                      Selanjutnya
+                      &#10095;
                     </button>
                 </div>
             </div>
@@ -62,9 +62,9 @@
                             <th colspan="6">
                             <div class="flex">
                               <div class="flex-1">
-                                <input v-model="search" type="text" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm rounded-md" placeholder="Cari..." />
+                                <input v-model="search" type="text" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm rounded-md" placeholder="Cari berdasarkan plat number | bus number | distributor..." />
                               </div>
-                              <div>
+                              <div class="flex justify-center items-center">
                                 <button @click="show_search=false" class="h-5 w-5 rounded-full text-white bg-gray-400 flex justify-center items-center">
                                   <p>&#10005;</p>
                                 </button>
@@ -74,6 +74,11 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
+                          <tr v-if="!buses.data.length > 0">
+                            <td class="px-6 py-4 whitespace-nowrap" colspan="6">
+                              <div class="text-sm text-gray-900">Data tidak ditemukan...</div>
+                            </td>
+                          </tr>
                           <tr v-for="(bus, index) in buses.data">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{ buses.from + index }}</div>

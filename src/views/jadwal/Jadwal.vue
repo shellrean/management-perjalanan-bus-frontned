@@ -14,9 +14,9 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
-                          <tr>
+                          <tr v-if="!show_search">
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              #
+                              <button @click="show_search=true">&#10061; Cari...</button>
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               Bus
@@ -37,8 +37,27 @@
                               <span class="sr-only">Edit</span>
                             </th>
                           </tr>
+                          <tr v-if="show_search">
+                            <th colspan="7">
+                            <div class="flex">
+                              <div class="flex-1">
+                                <input v-model="search" type="date" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-3 sm:text-sm rounded-md" placeholder="Cari berdasarkan plat number | bus number | distributor..." />
+                              </div>
+                              <div class="flex justify-center items-center">
+                                <button @click="show_search=false" class="h-5 w-5 rounded-full text-white bg-gray-400 flex justify-center items-center">
+                                  <p>&#10005;</p>
+                                </button>
+                              </div>
+                            </div>
+                            </th>
+                          </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
+                          <tr v-if="!jadwals.data.length > 0">
+                            <td class="px-6 py-4 whitespace-nowrap" colspan="6">
+                              <div class="text-sm text-gray-900">Data tidak ditemukan...</div>
+                            </td>
+                          </tr>
                           <tr v-for="(jadwal, index) in jadwals.data" 
                           :class="getBackgroundRow(jadwal.status)">
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -54,7 +73,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                               <div class="text-sm text-gray-900">
-                                [{{ jadwal.rute_kode }}] <br /> Waktu tempuh {{ jadwal.rute_waktu_tempuh}}
+                                [{{ jadwal.rute_kode }}] <br /> {{ convertToJamAndMinute(jadwal.rute_waktu_tempuh) }}
                               </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -84,6 +103,10 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
+  data: () => ({
+    show_search: false,
+    search: ""
+  }),
   computed: {
     ...mapState('jadwal', ['jadwals']),
     page: {
@@ -99,7 +122,7 @@ export default {
     ...mapActions('jadwal', ['fetchDataJadwals']),
     async _fetchDataJadwals(prev, next) {
       try {
-        await this.fetchDataJadwals()
+        await this.fetchDataJadwals(this.search)
       } catch (e) {
         alert(e)
       }
@@ -111,6 +134,14 @@ export default {
         return 'bg-green-100';
       }
       return '';
+    },
+    convertToJamAndMinute(waktu) {
+      let jam = Math.floor(waktu/60);
+      let menit = waktu-(jam*60);
+      if(jam > 0) {
+        return `${jam} jam ${menit} menit`
+      }
+      return `${menit} menit`
     }
   },
   created() {
@@ -119,7 +150,10 @@ export default {
   watch: {
     page() {
       this._fetchDataJadwals()
-    }
+    },
+    search: _.debounce(function() {
+      this._fetchDataJadwals()
+    }, 500)
   }
 }
 </script>

@@ -29,10 +29,10 @@ export default {
   actions
 }
 
-function fetchDataTerminals({ commit, state }) {
+function fetchDataTerminals({ commit, state }, qSearch) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'terminals?page='+state.page;
+      let link = `terminals?page=${state.page}&q=${qSearch}`;
 
       let network = await $http.get(link)
       commit('_assign_terminals_data', network.data)

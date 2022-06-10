@@ -78,20 +78,14 @@ export default {
     },
     async _fetchDataSupirs(prev, next) {
       try {
-        await this.fetchDataSupirs({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataSupirs("")
       } catch (e) {
         alert(e)
       }
     },
     async _fetchDataRutes(prev, next) {
       try {
-        await this.fetchDataRutes({
-          prev: prev,
-          next: next
-        })
+        await this.fetchDataRutes("")
       } catch (e) {
         alert(e)
       }

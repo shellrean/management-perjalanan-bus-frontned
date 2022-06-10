@@ -29,10 +29,10 @@ export default {
   actions
 }
 
-function fetchDataSupirs({ commit, state }) {
+function fetchDataSupirs({ commit, state }, qSearch) {
   return new Promise(async (resolve, reject) => {
     try {
-      let link = 'supirs?page='+state.page;
+      let link = `supirs?page=${state.page}&q=${qSearch}`;
 
       let network = await $http.get(link)
       commit('_assign_supirs_data', network.data)
