@@ -74,7 +74,7 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                          <tr v-if="!buses.data.length > 0">
+                          <tr v-if="typeof buses.data != 'undefined' && !buses.data.length > 0">
                             <td class="px-6 py-4 whitespace-nowrap" colspan="6">
                               <div class="text-sm text-gray-900">Data tidak ditemukan...</div>
                             </td>

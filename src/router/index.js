@@ -1,3 +1,4 @@
+import store from '../store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
@@ -23,93 +24,117 @@ import JadwalIndex from '../views/jadwal/Jadwal.vue'
 import JadwalAdd from '../views/jadwal/Add.vue'
 import JadwalEdit from '../views/jadwal/Edit.vue'
 
+import Login from '../views/auth/Login.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { needAuth: true }
   },
   {
     path: '/bus',
     name: 'bus.index',
-    component: BusIndex
+    component: BusIndex,
+    meta: { needAuth: true }
   },
   {
     path: '/bus/add',
     name: 'bus.add',
-    component: BusAdd
+    component: BusAdd,
+    meta: { needAuth: true }
   },
   {
     path: '/bus/:id/edit',
     name: 'bus.edit',
-    component: BusEdit
+    component: BusEdit,
+    meta: { needAuth: true }
   },
   {
     path: '/supir',
     name: 'supir.index',
-    component: SupirIndex
+    component: SupirIndex,
+    meta: { needAuth: true }
   },
   {
     path: '/supir/add',
     name: 'supir.add',
-    component: SupirAdd
+    component: SupirAdd,
+    meta: { needAuth: true }
   },
   {
     path: '/supir/:id/edit',
     name: 'supir.edit',
-    component: SupirEdit
+    component: SupirEdit,
+    meta: { needAuth: true }
   },
   {
     path: '/terminal',
     name: 'terminal.index',
-    component: TerminalIndex
+    component: TerminalIndex,
+    meta: { needAuth: true }
   },
   {
     path: '/terminal/add',
     name: 'terminal.add',
-    component: TerminalAdd
+    component: TerminalAdd,
+    meta: { needAuth: true }
   },
   {
     path: '/terminal/:id/edit',
     name: 'terminal.edit',
-    component: TerminalEdit
+    component: TerminalEdit,
+    meta: { needAuth: true }
   },
   {
     path: '/rute',
     name: 'rute.index',
-    component: RuteIndex
+    component: RuteIndex,
+    meta: { needAuth: true }
   },
   {
     path: '/rute/add',
     name: 'rute.add',
-    component: RuteAdd
+    component: RuteAdd,
+    meta: { needAuth: true }
   },
   {
     path: '/rute/:id/edit',
     name: 'rute.edit',
-    component: RuteEdit
+    component: RuteEdit,
+    meta: { needAuth: true }
   },
   {
     path: '/rute/:id',
     name: 'rute.show',
-    component: RuteView
+    component: RuteView,
+    meta: { needAuth: true }
   },
   {
     path: '/jadwal',
     name: 'jadwal.index',
-    component: JadwalIndex
+    component: JadwalIndex,
+    meta: { needAuth: true }
   },
   {
     path: '/jadwal/add',
     name: 'jadwal.add',
-    component: JadwalAdd
+    component: JadwalAdd,
+    meta: { needAuth: true }
   },
   {
     path: '/jadwal/:id/edit',
     name: 'jadwal.edit',
-    component: JadwalEdit
+    component: JadwalEdit,
+    meta: { needAuth: true }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
   }
 ]
 
@@ -117,6 +142,19 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.needAuth)) {
+    let isAuth = store.getters.isAuth
+    if(!isAuth) {
+      next({ name: 'login' })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

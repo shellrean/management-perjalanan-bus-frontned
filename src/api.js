@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import store from './store';
 
 const $axios = axios.create({
   headers: {
@@ -10,6 +10,7 @@ const $axios = axios.create({
 $axios.interceptors.request.use(
   function(config) {
     config.url = `${process.env.VUE_APP_BASE_URL}/api/${config.url}`
+    config.headers.Authorization = `Bearer ${store.state.access_token}`
     return config;
   },
   function(error) {
